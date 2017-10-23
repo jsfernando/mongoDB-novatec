@@ -1,0 +1,15 @@
+Livraria
+  Livro
+    Titulo
+    Author
+    Número de Páginas
+    Capa
+    Editora
+    Categoria
+    Preço
+    
+Table livro (id, titulo, id_editora, id_categoria, preco, paginas, capa)
+Table autor (id, name)
+Table livro_autor (id_livro, id_autor) n:n
+Table editora (id, name)
+Table categoria (id, name)

@@ -1,0 +1,5 @@
+Conexão MongoDB
+
+>mongo mongo.feagri.unicamp.br/sinfo -u sinfo -p 123
+
+>mongo mongo.feagri.unicamp.br:27017/sinfo -u sinfo -p 123

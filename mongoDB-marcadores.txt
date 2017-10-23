@@ -1,0 +1,10 @@
+Marcadores mongo-DB
+
+$or
+$set
+$gte, $gt
+$lte, $lt
+$rename
+$inc -> incremento
+$exists
+$unset

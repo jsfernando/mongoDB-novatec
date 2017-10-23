@@ -1,0 +1,30 @@
+Livro {
+
+  _id: "..."
+  title: "Introdução ao MongoDB",
+  paginas: "256",
+  autores: ["David","Peter", "Eelco"],
+  editora: "Novatec"
+  categoria: "Banco de Dados"
+  preco: 79.90,
+  capa: "capa_mongo_db.jpg"
+  
+}
+
+Livro {
+
+  _id: "..."
+  title: "Introdução ao MongoDB",
+  paginas: "256",
+  autores: ["David","Peter", "Eelco"],
+  editora: "Novatec", 
+  categoria: "Banco de Dados", // cacheado
+  preco: 79.90,
+  capa: "capa_mongo_db.jpg"
+  
+}
+
+categoria
+{
+  name: "Banco de dados"
+}

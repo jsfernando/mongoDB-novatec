@@ -1,0 +1,108 @@
+Querys MongoDB
+.group()
+.aggregate()
+
+3 partes obrigatórios
+db.books.group({ 
+	key: {}, 
+	reduce: function() {},
+	initial: { total: 0}
+}) 
+
+db.books.group({ 
+	key: {}, 
+	reduce: function(curr, result) {
+		result.total += curr.pages || 0
+	},
+	initial: { total: 0}
+}) 
+
+Total de paginas
+> db.books.group({
+... key: {},
+... reduce: function(curr, result) {
+... result.total += curr.pages || 0
+... },
+... initial: { total: 0}
+... })
+[ { "total" : 5716 } ]
+>
+
+
+agregate
+
+db.books.aggregate({
+	$group: { _id:{}, total: { $sum: '$pages'} }
+})
+
+> db.books.aggregate({
+... $group: { _id:{}, total: { $sum: '$pages'} }
+... })
+{ "_id" : {  }, "total" : 5716 }
+>
+
+db.books.aggregate({
+	$group: { 
+		_id:{}, 
+		total: { $sum: '$pages'},
+		media: { $avg: '$pages'}
+	}
+})
+
+> db.books.aggregate({
+... $group: {
+... _id:{},
+... total: { $sum: '$pages'},
+... media: { $avg: '$pages'}
+... }
+... })
+{ "_id" : {  }, "total" : 5716, "media" : 336.2352941176471 }
+>
+
+db.books.aggregate({
+	$group: { 
+		_id:{}, 
+		total: { $sum: '$pages'},
+		media: { $avg: '$pages'},
+		conta: { $sum: 1}
+	}
+})
+
+> db.books.aggregate({
+... $group: {
+... _id:{},
+... total: { $sum: '$pages'},
+... media: { $avg: '$pages'},
+... conta: { $sum: 1}
+... }
+... })
+{ "_id" : {  }, "total" : 5716, "media" : 336.2352941176471, "conta" : 21 }
+>
+
+db.books.aggregate([
+  { $match: { pages: { $lte: 100 } } },
+  {
+    $group: { 
+      _id: {}, 
+      total: { $sum: '$pages' },
+      avg: { $avg: '$pages' },
+      count: { $sum: 1 }
+    }
+  }
+])
+
+// filtrar os livros com menos de 100 páginas e depois agrupar
+> db.books.aggregate([
+...   { $match: { pages: { $lte: 100 } } },
+...   {
+...     $group: {
+...       _id: {},
+...       total: { $sum: '$pages' },
+...       avg: { $avg: '$pages' },
+...       count: { $sum: 1 }
+...     }
+...   }
+... ])
+{ "_id" : {  }, "total" : 200, "avg" : 40, "count" : 5 }
+>
+

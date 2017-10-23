@@ -1,0 +1,33 @@
+MongoDB export
+
+C:\xampp\htdocs\mongoDB>mongoexport --host 127.0.0.1 --db novatec -c books > books.json
+2017-10-21T14:18:21.433-0200    connected to: 127.0.0.1
+2017-10-21T14:18:21.578-0200    exported 21 records
+
+C:\xampp\htdocs\mongoDB>dir
+ O volume na unidade C é Windows8_OS
+ O Número de Série do Volume é 864D-D750
+
+ Pasta de C:\xampp\htdocs\mongoDB
+
+21/10/2017  14:18    <DIR>          .
+21/10/2017  14:18    <DIR>          ..
+21/10/2017  14:18             1.826 books.json
+               1 arquivo(s)          1.826 bytes
+               2 pasta(s)   338.450.743.296 bytes disponíveis
+			   
+export com o caminho			   
+C:\xampp\htdocs\mongoDB>mongoexport --host 127.0.0.1 --db novatec -c books > C:\Users\sinfo\Documents\books.json
+2017-10-21T14:22:15.112-0200    connected to: 127.0.0.1
+2017-10-21T14:22:15.146-0200    exported 21 records			   
+
+
+
+Import
+
+C:\xampp\htdocs\mongoDB>mongoimport --host 127.0.0.1 --db backup -c books < books.json
+
+Gerando outro banco com import e banco backup
+C:\xampp\htdocs\mongoDB>mongoimport --host 127.0.0.1 --db backup -c books < books.json
+2017-10-21T14:24:52.554-0200    connected to: 127.0.0.1
+2017-10-21T14:24:52.828-0200    imported 21 documents

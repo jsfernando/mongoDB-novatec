@@ -1,0 +1,31 @@
+
+Escalar MongoDB
+
+crescimento no modo horizontal
+HA alta disponibilidade...
+Um sistema de alta disponibilidade (HA:High-Availability) é um sistema informático resistente a falhas de hardware, software e energia
+
+Replica Set >=3 máquinas
+
+30mil livros
+
+() () ()
+M  S  S
+
+O M caiu ..., um S assume faz insert e replica nos demais...
+Quando o M voltar, faz recovery e ficou ok, fica como S
+
+Uma consulta, busca em qualquer uma das 3...
+Os insert é feito somente na Master
+
+workset = RAM ...
+quantidade de 5mil dos que mais preciso 
+Isso sobe na memória
+
+(M)aster
+(S)lave
+
+
+Colocar o mongoDB em uma VPC (sua rede 143.106...)
+
+New Relic Ferramenta de produtividade

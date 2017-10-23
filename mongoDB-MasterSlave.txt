@@ -1,0 +1,38 @@
+mongo DB Master Slave
+
+$ cat mongo1.conf #mongo2.conf
+systemLog:
+   destination: file
+   path: "/Users/wbruno/Sites/mongodb/mongo1.log"
+   logAppend: true
+storage:
+   journal:
+      enabled: true
+net:
+   bindIp: 127.0.0.1
+   port: 27017
+storage:
+    dbPath: "/Users/wbruno/Sites/mongodb/1"
+
+
+
+mongod --config mongo2.conf --replSet novatec
+
+
+
+rs.initiate(
+   {
+      _id: "novatec",
+      version: 1,
+      members: [
+         { _id: 0, host : "127.0.0.1:27017" },
+         { _id: 1, host : "127.0.0.1:27018" }
+      ]
+   }
+)
+
+
+rs.isMaster()
+
+
+rs.stepDown() #rebaixa a master para slave

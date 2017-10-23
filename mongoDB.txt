@@ -1,0 +1,67 @@
+
+Mongo é schema less
+
+
+Tabelas (linhas) => Collections (documentos)
+
+_id é uma pk ... _id é um campo reservado javascript para o mongo
+
+
+Database => conjunto de collections
+
+id hash de 24 caracteres ... um hexadecimal de a-f
+
+
+db.books.findOne()
+{
+        "_id" : ObjectId("59eb3a2a3933d20fef953df2"),
+        "name" : "Introdução ao MongoDB"
+}
+
+mongo novatec => entra direto no banco novatec
+
+1 documentos o mongo permite 16Mb, o mongo garante performace de leitura
+
+Grid FS (mp4, mp3, pdf, doc)
+Grid FS pode guardar arquivos no mongo
+
+Grid FS (mp4[10mb])
+guarda um arquivo de 10mb e particiona o arquivo em 10x em 10 chunks
+chunks{ id_file: 'xxx' }
+
+subi um arquivo imagem.jpg
+
+C:\xampp\htdocs\mongoDB>mongofiles -d novatec put imagem.jpg
+2017-10-21T15:50:31.414-0200    connected to: localhost
+added file: imagem.jpg
+
+> use novatec
+switched to db novatec
+> show collections
+books
+fs.chunks
+fs.files
+logs
+>
+
+// o registro
+
+> db.fs.files.find()
+{ "_id" : ObjectId("59eb88e7251497e07441d668"), "chunkSize" : 261120, "uploadDate" : ISODate("2017-10-21T17:50:31.705Z"), "length" : 7435989, "md5" : "5fa6290a734d0e93c65b6f50dd4e8c3a", "filename" : "imagem.jpg" }
+>
+
+> db.fs.chunks.count()
+29
+>
+
+pegar o arquivo de volta
+
+C:\xampp\htdocs\mongoDB>mongofiles -d novatec get imagem.jpg
+2017-10-21T16:06:42.323-0200    connected to: localhost
+finished writing to imagem.jpg
+
+C:\xampp\htdocs\mongoDB>cd ..
+
+C:\xampp\htdocs>mongofiles -d novatec get imagem.jpg
+2017-10-21T16:31:49.228-0200    connected to: localhost
+finished writing to imagem.jpg

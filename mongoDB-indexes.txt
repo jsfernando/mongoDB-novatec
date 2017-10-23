@@ -1,0 +1,177 @@
+Indexes MongoDB
+
+índice crescente
+db.books.createIndex({name: 1})
+> db.books.createIndex({name: 1})
+{
+        "createdCollectionAutomatically" : false,
+        "numIndexesBefore" : 1,
+        "numIndexesAfter" : 2,
+        "ok" : 1
+}
+>
+
+db.books.find({name:'Introdução ao MongoDB'}, {_id:0, name:1}).explain('executionStats').executionStats
+
+// quando pedimos um find com o campo que é o índice, ele procura somente no índice e tras o resultado
+plano de execução
+> db.books.find({name:'Introdução ao MongoDB'}, {_id:0, name:1}).explain('executionStats').executionStats
+{
+        "executionSuccess" : true,
+        "nReturned" : 1,
+        "executionTimeMillis" : 30,
+        "totalKeysExamined" : 1,
+        "totalDocsExamined" : 0,
+        "executionStages" : {
+                "stage" : "PROJECTION",
+                "nReturned" : 1,
+                "executionTimeMillisEstimate" : 11,
+                "works" : 2,
+                "advanced" : 1,
+                "needTime" : 0,
+                "needYield" : 0,
+                "saveState" : 1,
+                "restoreState" : 1,
+                "isEOF" : 1,
+                "invalidates" : 0,
+                "transformBy" : {
+                        "_id" : 0,
+                        "name" : 1
+                },
+                "inputStage" : {
+                        "stage" : "IXSCAN",
+                        "nReturned" : 1,
+                        "executionTimeMillisEstimate" : 11,
+                        "works" : 2,
+                        "advanced" : 1,
+                        "needTime" : 0,
+                        "needYield" : 0,
+                        "saveState" : 1,
+                        "restoreState" : 1,
+                        "isEOF" : 1,
+                        "invalidates" : 0,
+                        "keyPattern" : {
+                                "name" : 1
+                        },
+                        "indexName" : "name_1",
+                        "isMultiKey" : false,
+                        "multiKeyPaths" : {
+                                "name" : [ ]
+                        },
+                        "isUnique" : false,
+                        "isSparse" : false,
+                        "isPartial" : false,
+                        "indexVersion" : 2,
+                        "direction" : "forward",
+                        "indexBounds" : {
+                                "name" : [
+                                        "[\"Introdução ao MongoDB\", \"Introdução ao MongoDB\"]"
+                                ]
+                        },
+                        "keysExamined" : 1,
+                        "seeks" : 1,
+                        "dupsTested" : 0,
+                        "dupsDropped" : 0,
+                        "seenInvalidated" : 0
+                }
+        }
+}
+>
+
+decrescente
+db.books.createIndex({releaseDate: -1}) // índice ao contrario, dos mais novos para mais velhos
+> db.books.createIndex({releaseDate: -1})
+{
+        "createdCollectionAutomatically" : false,
+        "numIndexesBefore" : 2,
+        "numIndexesAfter" : 3,
+        "ok" : 1
+}
+>
+quais índices eu tenho
+db.books.getIndexes()
+
+> db.books.getIndexes()
+[
+        {
+                "v" : 2,
+                "key" : {
+                        "_id" : 1
+                },
+                "name" : "_id_",
+                "ns" : "novatec.books"
+        },
+        {
+                "v" : 2,
+                "key" : {
+                        "name" : 1
+                },
+                "name" : "name_1",
+                "ns" : "novatec.books"
+        },
+        {
+                "v" : 2,
+                "key" : {
+                        "releaseDate" : -1
+                },
+                "name" : "releaseDate_-1",
+                "ns" : "novatec.books"
+        }
+]
+>
+
+apagar índices
+db.book.dropIndex('releaseDate_1')
+
+db.books.stats() // devolve bastante informação sob a collection
+
+stats do DB com uma média das collections
+> db.stats()
+{
+        "db" : "novatec",
+        "collections" : 1,
+        "views" : 0,
+        "objects" : 21,
+        "avgObjSize" : 68,
+        "dataSize" : 1428,
+        "storageSize" : 36864,
+        "numExtents" : 0,
+        "indexes" : 3,
+        "indexSize" : 69632,
+        "ok" : 1
+}
+>
+
+
+db.logs.insert({ updatedAt: new Date(), ip:'127.0.0.1'})
+
+> db.logs.insert({ updatedAt: new Date(), ip:'127.0.0.1'})
+WriteResult({ "nInserted" : 1 })
+
+> db.logs.find()
+{ "_id" : ObjectId("59eb822b3f1276b167dc5ce5"), "updatedAt" : ISODate("2017-10-21T17:21:47.259Z"), "ip" : "127.0.0.1" }
+
+criando indexes para sumir em tempo (expireAfterSeconds)
+
+> db.logs.createIndex({updatedAt:1}, {expireAfterSeconds:120})
+{
+        "createdCollectionAutomatically" : false,
+        "numIndexesBefore" : 2,
+        "numIndexesAfter" : 3,
+        "ok" : 1
+}
+>
+
+> db.logs.createIndex({updateAt:1}, {expireAfterSeconds:120})
+{
+        "createdCollectionAutomatically" : false,
+        "numIndexesBefore" : 1,
+        "numIndexesAfter" : 2,
+        "ok" : 1
+}
+>
+
+db.createCollection('logs',{capped: true, max:10, size:1024})
+
+db.logs.find().ugly() // lista sem identação
+
